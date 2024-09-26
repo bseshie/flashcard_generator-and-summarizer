@@ -1,0 +1,87 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* background-color: #1883B0; */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+.link{
+  width: 50%;
+}
+
+.linkBtn{
+  background-color: #1883B0;
+  color: white;
+  border-radius: 5px;
+  border-style: none;
+
+}
+
+.text-area{
+  /* height: 45em; */
+  border: 1px solid black;
+  
+}
+
+.input{
+ height: 25em;
+ border: 1px solid black;
+}
+
+.sumBtn{
+  width: 37%;
+  border-style: none;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #1883B0;
+  color: white;
+}
+
+.paraBtn{
+  width: 37%;
+  margin-left:55%;
+}
+
+label{
+  color: #1883B0;
+  font-weight: bold;
+}
+
+.inputTwo{
+  height: 25em;
+  border: 1px solid black;
+}
+
+.genBtn{
+  width: 50%;
+  margin-left: 25%;
+  border-style: none;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #1883B0;
+  color: white;
+}
+
+.gen{
+  margin-left: 25%;
+}
+
+/* .nextPrev{
+  margin-left: 32%;
+  border: 1px solid black;
+  
+} */
+
+.prev,.next , .dwnload{
+  border: 1px solid black;
+  border-radius: 5px;
+}
