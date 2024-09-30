@@ -19,8 +19,8 @@ const Generator = () => {
 
                 <div className='container-fluid d-flex flex-column align-items-center '>
                     <form className='w-100  d-flex justify-content-center'>
-                        
-                        <input placeholder='Type or paste here...' className='inputTwo w-50 mx-5 rounded' />
+                        {/* <TextSummarizer /> */}
+                        <textarea placeholder='Type or drop a file here...' className='inputTwo w-50 mx-5 rounded' />
                     </form>
                     <button className='genBtn my-4 rounded w-50 '>Generate Flashcards</button>
                 </div>

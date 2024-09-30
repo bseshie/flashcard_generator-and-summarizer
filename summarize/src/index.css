@@ -34,6 +34,17 @@ code {
 .input{
  height: 25em;
  border:1px solid  gray;
+ position: relative;
+ display: block;
+ padding: 5%;
+ padding-bottom: 50%;
+}
+
+.pasteIcon{
+  position: absolute;
+  left: 26%;
+  top: 650px;
+  cursor: pointer;
 }
 
 .sumBtn{
