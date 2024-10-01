@@ -42,10 +42,13 @@ code {
 
 .pasteIcon{
   position: absolute;
-  left: 26%;
-  top: 650px;
+  left: 24%;
+  top: 620px;
   cursor: pointer;
+  width: 100px;
 }
+
+
 
 .sumBtn{
   border-style: none;
@@ -64,7 +67,24 @@ label{
   height: 25em;
   border-style: none;
   background-color: white;
+  position: relative;
+  padding: 3%;
 }
+
+.pasteicon{
+  position: absolute;
+  left: 45%;
+  top: 480px;
+  cursor: pointer;
+  width: 100px;
+}
+
+/* .uploadBtn{ 
+  position: absolute;
+  top: 830px;
+  left: 15%;
+ 
+} */
 
 .genBtn{
   border-style: none;

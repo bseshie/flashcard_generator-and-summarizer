@@ -1,12 +1,12 @@
-// import React from 'react';
 import Navbar from './NavBar';
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 
-export const TextSummarizer = () => {
+
+const TextSummarizer = () => {
     const [input, setInput] = useState("");
     const [drag,setDrag] = useState(false);
-    const location =useLocation();
+    
+
 
     const handleDragOver = (e) =>{
         e.preventDefault();
@@ -22,19 +22,36 @@ export const TextSummarizer = () => {
         e.preventDefault();
         setDrag(false);
 
-        const data = e.dataTransfer.getData('Text');
-        if(data){
-            setInput(data);
-        }else if(e.dataTransfer.files.length > 0){
-            const file = e.dataTransfer.files[0];
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                setInput(e.target.result);
-                };
-                reader.readAsText(file);
+        const droppedFiles = Array.from(e.dataTransfer.files);
+
+       
+        if(droppedFiles.length > 0){
+            droppedFiles.forEach(file =>{
+            if(file.type === "text/plain"){
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    setInput(e.target.result);
+                    };
+                    reader.readAsText(file);
+            }else {
+                alert("Please drop a text file!")
+            }
+        });
         }
     };
 
+    const handleFileUpload = (e) =>{
+        const file =e.target.files[0];
+        if(file && file.type === "text/plain"){
+            const reader = new FileReader();
+            reader.onload =(e) => {
+                setInput(e.target.result);
+            };
+            reader.readAsText(file);
+        }else{
+            alert("Please select a text file!")
+        }
+    };
 
     // if user types manually
     const handleChange = (e) => {
@@ -50,26 +67,28 @@ export const TextSummarizer = () => {
                 <div className="col-6 ">
                     <form className='mt-5 w-100 '>
                         <label className='mx-5 mt-5 mb-1'>Your Text</label>
-                            {location.pathname === '/' && '/cards' &&(
-                            
-                            <textarea placeholder='Type or drop a file here...'  
+
+                            <textarea placeholder='Type or drop a text file here...'  
                             className={`input w-75 mx-5  rounded ${drag ? 'drag' : ''}`}
                                 type='text' value={input}
                                 onChange={handleChange} 
                                 onDragOver={handleDragOver}
                                 onDragLeave={handleLeave}
                                 onDrop={handleDrop} 
-                                /> )
-                            }
+                                /> 
+                            
+                            
                             {!input && !drag && (
-                                <img className='img-fluid pasteIcon '
-                                src='/assets/pasteIcon.svg' alt='paste icon'/>
+                                <div className='d-flex flex-column pasteIcon '>
+                                <img className='img-fluid'
+                                src='/assets/pasteIcon.svg' alt='paste icon' />
+                                <input type='file' accept='.txt' onChange={handleFileUpload}  />
+                                </div>
                             )}
-                        
                     </form>
                     <button className='sumBtn mx-5 my-4  w-75 rounded'>Summarize</button>
                 </div>
-                {location.pathname === '/' && (                 
+            
                 <div className="col-6 d-flex flex-column mt-2 ">
                     <div className="paraBtn btn-group my-4 w-75 mx-5  " role="group">
                         <button type="button" className="btn btn-outline" style={{borderColor: 'gray', color: '#1883B0'}}>Paragraph</button>
@@ -79,22 +98,29 @@ export const TextSummarizer = () => {
                     <div className='input w-75 mx-5 rounded'>
                         
                     </div>
-                </div>)
-                }
+                </div>
+                
+                
 
             </div>
-                    
+            
         </div>
+
+    
+
     );
 
+    
+       
 };
 
 
-
+//move link area logic to Linkarea.js
 export const LinkArea = () => {
     return (
         <div class="container-fluid input-group link d-flex justify-content-center mt-5 mb-5">
-            <input type="url" className="form-control me-3 rounded-end" placeholder='Paste the article link'  />
+            <input type="url" accept='url' className="form-control me-3 rounded-end"
+             placeholder='Paste the article link' pattern='https://.*' size= '30'  />
             <button type='submit' className='linkBtn px-4 py-1 rounded'>Submit</button>
         </div>
     );
@@ -129,5 +155,7 @@ const Main = () => {
 
 
 export default Main;
+
+
 
 

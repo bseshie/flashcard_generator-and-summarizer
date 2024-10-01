@@ -1,6 +1,114 @@
-import React from 'react';
+import React ,{useState} from 'react';
 import Navbar from './NavBar';
 import {LinkArea}  from './Main'
+
+const TextSummarizer = () => {
+    const [input, setInput] = useState("");
+    const [drag,setDrag] = useState(false);
+
+
+
+    const handleDragOver = (e) =>{
+        e.preventDefault();
+        setDrag(true);
+    };
+
+    const handleLeave = (e) => {
+        e.preventDefault();
+        setDrag(false);
+    };
+
+    const handleDrop = (e) =>{
+        e.preventDefault();
+        setDrag(false);
+
+        // const data = e.dataTransfer.getData('Text');
+        // if(data){
+        //     setInput(data);
+        // }else if(e.dataTransfer.files.length > 0){
+        //     const file = e.dataTransfer.files[0];
+        //     if(file.type === "text/plain"){
+        //         const reader = new FileReader();
+        //         reader.onload = (e) => {
+        //             setInput(e.target.result);
+        //             };
+        //             reader.readAsText(file);
+        //     }else {
+        //         alert("Please drop a text file!")
+        //     }
+        // }
+
+        const droppedFiles = Array.from(e.dataTransfer.files);
+
+       
+        if(droppedFiles.length > 0){
+            droppedFiles.forEach(file =>{
+            if(file.type === "text/plain"){
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    setInput(e.target.result);
+                    };
+                    reader.readAsText(file);
+            }else {
+                alert("Please drop a text file!")
+            }
+        });
+        }
+    };
+
+    const handleFileUpload = (e) =>{
+        const file =e.target.files[0];
+        if(file && file.type === "text/plain"){
+            const reader = new FileReader();
+            reader.onload =(e) => {
+                setInput(e.target.result);
+            };
+            reader.readAsText(file);
+        }else{
+            alert("Please select a text file!")
+        }
+    };
+
+
+    // if user types manually
+    const handleChange = (e) => {
+        setInput(e.target.value);
+    };
+    
+    
+    
+
+    return(
+        
+        <div className='container-fluid d-flex flex-column align-items-center '>
+                    <form className='w-100  d-flex justify-content-center'>
+                        
+                        <textarea placeholder='Type or drop a file here...' 
+                        className= {`inputTwo w-50 mx-5  rounded ${drag ? 'drag' : ''}`} 
+                        type='text' value={input}
+                        onChange={handleChange} 
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleLeave}
+                        onDrop={handleDrop} 
+                        />
+
+                        {!input && !drag && (
+                            <div className='d-flex flex-column pasteicon '>
+                            <img className='img-fluid'
+                            src='/assets/pasteIcon.svg' alt='paste icon' />
+                            <input type='file' accept='.txt' onChange={handleFileUpload}  />
+                            </div>
+                        )}
+                    </form>
+                    <button className='genBtn my-4 rounded w-50 '>Generate Flashcards</button>
+                </div>
+
+    );
+
+    
+       
+};
+
 
 const Generator = () => {
     return(
@@ -14,17 +122,12 @@ const Generator = () => {
             </div>
             </header>
 
+
+            
             <section className='m-5'>
                 <LinkArea />
 
-                <div className='container-fluid d-flex flex-column align-items-center '>
-                    <form className='w-100  d-flex justify-content-center'>
-                        {/* <TextSummarizer /> */}
-                        <textarea placeholder='Type or drop a file here...' className='inputTwo w-50 mx-5 rounded' />
-                    </form>
-                    <button className='genBtn my-4 rounded w-50 '>Generate Flashcards</button>
-                </div>
-
+                <TextSummarizer />
 
                 <div className='mt-5 '>
                     <div className='d-flex flex-column align-items-start w-50 mx-auto'>
@@ -45,6 +148,7 @@ const Generator = () => {
                         </div>
                     </div>
                 </div>
+                
             </section>
 
             
