@@ -170,7 +170,7 @@ import TextArea from '../components/TextArea';
 import ActionButton from '../components/ActionButton';
 import Navbar from '../components/NavBar';
 import LinkArea from '../components/Linkarea';
-
+import axios from 'axios';
 
 
 const Main = () => {
@@ -179,11 +179,33 @@ const Main = () => {
   const [summarizedtext , setSummarizedtext] = useState("");
   const [loading ,setLoading] = useState(false);
 
+  const handleInputChange = (e) =>{
+    setInput(e.target.value);
+  };
 
-  const HandleSubmit = () =>{
+  const handleSubmit = async () =>{
+    if(!input) return
+    alert('Please input text to summarize');
+
     setLoading(true);
+    
+    const response = await axios.post('endpoint',
+        {
+            prompt: `Summarize this text: \n\n${input} \n\nSummary:`, 
+            max_tokens: 200,
+            temperature : 0.7,
+        },
+        {
+            headers: {
+                Authorization: 'Bearer AI_API_KEY',
+                'Content-Type': 'application/json',
+            },
+        }
+    );
 
-   setSummarizedtext();     
+    setSummarizedtext(response.data.choices[0].text.trim());
+    setLoading(false);
+       
   }
 
 
@@ -198,7 +220,7 @@ const Main = () => {
             </div>
         </header>
 
-        <LinkArea onClick={HandleSubmit} />
+        <LinkArea onClick={handleSubmit} />
 
         <div className='container text-area rounded mb-5'>
             <div className='row d-flex align-items-start'>
@@ -211,13 +233,14 @@ const Main = () => {
                         setInput={setInput}
                         drag={drag}
                         setDrag={setDrag}
+                        onChange ={handleInputChange}
                         to ='/'
                         classname= 'd-flex flex-column pasteIcon'
                         imgSrc= '/assets/pasteIcon.svg'
                         alt = 'paste icon'
                         />
                     </form>
-                    <ActionButton text='Summarize' onClick={HandleSubmit}
+                    <ActionButton text='Summarize' onClick={handleSubmit}
                     className='sumBtn mx-5 my-4 w-75 rounded' />
                     {loading === true &&(
                         <p>Loading</p>

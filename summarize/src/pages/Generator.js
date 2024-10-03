@@ -168,11 +168,27 @@ import TextArea from '../components/TextArea';
 import ActionButton from '../components/ActionButton';
 import Navbar from '../components/NavBar';
 import LinkArea from '../components/Linkarea';
+import ReactCardFlip from 'react-card-flip';
+
 
 
 const Generator = () => {
   const [input, setInput] = useState('');
   const [drag, setDrag] = useState(false);
+  const [isFlipped,setIsFlipped] = useState(false);
+  // const [flashcards, setFlashcards] = useState([]);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    setIsFlipped(!isFlipped);
+  }
+
+
+
+  const download = () => {
+    // const text = [];
+  };
+
 
   
   return (
@@ -212,23 +228,32 @@ const Generator = () => {
         </div>
 
         {/* use react flip card component to simulate actual card flipping  */}
-        <div className='mt-5 '>
-          <div className='d-flex flex-column align-items-start w-50 mx-auto'>
-            <h5 className='gen fw-medium'>Flashcards</h5>
-            <div className='container-fluid inputTwo w-100 mb-5 rounded'></div>
+        
+          <div className='mt-5 '>
+            <div className='d-flex flex-column align-items-start w-50 mx-auto'>
+              <h5 className='gen fw-medium'>Flashcards</h5>
+              <ReactCardFlip isFlipped={isFlipped} flipDirection='horizontal' >
+                <textarea className='container-fluid inputTwo w-100  mb-5 rounded card-front'
+                  readOnly ={true}
+                /> 
+                <textarea className='container-fluid inputTwo w-100 mb-5 rounded card-back'
+                  readOnly ={true}
+                /> 
+              </ReactCardFlip>
+            </div>
+            <div className='d-flex flex-row justify-content-center nextPrev bd-highlight mb-3'>
+              <button className='prev py-2 px-4 mx-5 bd-highlight rounded' onClick={handleClick} >
+                <img src='/assets/prevBtn.svg' alt='previous button' />
+              </button>
+              <button className='next py-2 px-3 mx-5 bd-highlight rounded' onClick={handleClick} >
+                <img src='/assets/nextBtn.svg' alt='next button' />
+              </button>
+              <button className='dwnload py-2 px-3 mx-5 bd-highlight rounded' onClick={download}>
+                <img src='/assets/dwnload.svg' alt='download button' />
+              </button>
+            </div>
           </div>
-          <div className='d-flex flex-row justify-content-center nextPrev bd-highlight mb-3'>
-            <div className='prev py-2 px-4 mx-5 bd-highlight rounded'>
-              <img src='/assets/prevBtn.svg' alt='previous button' />
-            </div>
-            <div className='next py-2 px-3 mx-5 bd-highlight rounded'>
-              <img src='/assets/nextBtn.svg' alt='next button' />
-            </div>
-            <div className='dwnload py-2 px-3 mx-5 bd-highlight rounded'>
-              <img src='/assets/dwnload.svg' alt='download button' />
-            </div>
-          </div>
-        </div>
+
       </section>
     </div>
   );

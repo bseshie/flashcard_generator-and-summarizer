@@ -99,5 +99,6 @@ label{
 
 .prev,.next , .dwnload{
   background-color: white;
+  border-style: none;
 }
 
