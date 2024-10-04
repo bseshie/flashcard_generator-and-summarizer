@@ -232,13 +232,13 @@ const Generator = () => {
           <div className='mt-5 '>
             <div className='d-flex flex-column align-items-start w-50 mx-auto'>
               <h5 className='gen fw-medium'>Flashcards</h5>
-              <ReactCardFlip isFlipped={isFlipped} flipDirection='horizontal' >
+              <ReactCardFlip  isFlipped={isFlipped} flipDirection='horizontal'  >
                 <textarea className='container-fluid inputTwo w-100  mb-5 rounded card-front'
                   readOnly ={true}
                 /> 
-                <textarea className='container-fluid inputTwo w-100 mb-5 rounded card-back'
+                <textarea className='container-fluid inputTwo w-100  mb-5 rounded card-back'
                   readOnly ={true}
-                /> 
+                />   
               </ReactCardFlip>
             </div>
             <div className='d-flex flex-row justify-content-center nextPrev bd-highlight mb-3'>

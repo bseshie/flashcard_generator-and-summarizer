@@ -184,12 +184,17 @@ const Main = () => {
   };
 
   const handleSubmit = async () =>{
-    if(!input) return
-    alert('Please input text to summarize');
-
+    if(!input){ 
+        alert('Please input text to summarize');
+        return
+    }
     setLoading(true);
     
-    const response = await axios.post('endpoint',
+
+    try{ 
+    
+    const apiKey = process.env.REACT_APP_X_API_KEY;
+    const response = await axios.post('https://ai-api.amalitech-dev.net/api/v1',
         {
             prompt: `Summarize this text: \n\n${input} \n\nSummary:`, 
             max_tokens: 200,
@@ -197,16 +202,27 @@ const Main = () => {
         },
         {
             headers: {
-                Authorization: 'Bearer AI_API_KEY',
+                Authorization: `Bearer ${apiKey} `,
                 'Content-Type': 'application/json',
             },
         }
     );
 
     setSummarizedtext(response.data.choices[0].text.trim());
-    setLoading(false);
-       
-  }
+    }catch (error) {
+        console.error('error generating summary:' ,error);
+        if(error.response){
+            console.error('response data:' ,error.response.data);
+            console.error('response status',error.response.status);
+        }else if(error.request){
+            console.error('request data:' ,error.request);
+        }else{
+            console.error('error message:', error.message);
+        }
+    }finally{
+        setLoading(false);
+    }   
+  };
 
 
   return (
@@ -264,7 +280,7 @@ const Main = () => {
                     </div>
                     <label className='mb-1 mx-5'>Summary</label>
                     <textarea readOnly={true} className='input w-75 mx-5 rounded' 
-                       placeholder='Summarized Text' value={{summarizedtext}}
+                       placeholder='Summarized Text' value={summarizedtext}
                     />
                 </div>
             </div>
