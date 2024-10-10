@@ -15,6 +15,8 @@ const Generator = () => {
   const [flashcards, setFlashcards] = useState([]);
   const [currentIndex, setCurrentIndex] =useState(0);
   const flashcardRef = useRef(null);
+  const [loading ,setLoading] = useState(false);
+
 
   // const handleClick = (e) => {
   //   e.preventDefault();
@@ -24,6 +26,9 @@ const Generator = () => {
 
 
   const generateFlashcards = async () => {
+
+    setLoading(true);
+
     try {
       const response = await axios.post(
         'https://ai-api.amalitech.org/api/v1/public/chat',
@@ -56,6 +61,9 @@ const Generator = () => {
       
     } catch (error) {
       console.error('Error generating flashcards:', error);
+    }finally{
+      setLoading(false);
+
     }
   };
   const downloadFlashcards = () => {
@@ -137,11 +145,14 @@ const Generator = () => {
             className='genBtn my-4 rounded w-50'
             onClick={generateFlashcards}
             />
+            {loading === true &&(
+                        <p>Loading</p>
+                    )}
         </div>
 
         {/* use react flip card component to simulate actual card flipping  */}
         
-        <div className='mt-5 '>
+        <div className='mt-5 ' ref={flashcardRef}>
           {flashcards.length > 0 && (
             <div className='d-flex flex-column w-50 mx-auto'>
               <h5 className='gen fw-medium'>Flashcards</h5>
