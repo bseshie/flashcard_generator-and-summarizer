@@ -4,6 +4,7 @@ import ActionButton from '../components/ActionButton';
 import Navbar from '../components/NavBar';
 import LinkArea from '../components/Linkarea';
 import axios from 'axios';
+// import ReactMarkdown from "react-markdown";
 
 
 const Main = () => {
@@ -11,6 +12,8 @@ const Main = () => {
   const [drag, setDrag] = useState(false);
   const [summarizedtext , setSummarizedtext] = useState("");
   const [loading ,setLoading] = useState(false);
+  const [displayMode, setDisplayMode] = useState('paragraph'); 
+//   const [link, setLink] = useState('');
 
   const handleInputChange = (e) =>{
     setInput(e.target.value);
@@ -18,7 +21,7 @@ const Main = () => {
 
   const handleSubmit = async () =>{
     if(!input){ 
-        alert('Please input text to summarize');
+        alert('Please input text or link of article to be summarize');
         return
     }
     setLoading(true);
@@ -40,8 +43,10 @@ const Main = () => {
         }
     );
 
+
     setSummarizedtext(response.data.data.content);
 
+    
     }catch (error) {
         console.error('error generating summary:' ,error);
         if(error.response){
@@ -57,6 +62,14 @@ const Main = () => {
     }   
   };
 
+  const bulletPoints = (text) =>{
+    const bullet = text.split('. ').filter(sentence => sentence).map(sentence => `-${sentence}`);
+    return bullet.join('\n');
+  };
+
+
+
+
 
   return (
     <div>
@@ -70,7 +83,7 @@ const Main = () => {
         </header>
 
         <div className='container-fluid input-group link d-flex justify-content-center mt-5 mb-5'>
-            <LinkArea  />
+            <LinkArea />
             <ActionButton text='Submit' onClick={handleSubmit} className='linkBtn px-4 py-1 rounded' />
         </div>
 
@@ -102,21 +115,25 @@ const Main = () => {
                 <div className='col-6 d-flex flex-column mt-2 '>
                     <div className='paraBtn btn-group my-4 w-75 mx-5 ' role='group'>
                         <button
-                        type='button'
-                        className='btn btn-outline'
+                        type='button' 
+                        className={`btn ${displayMode === 'paragraph' ? 'btn-light' : 'btn-outline'}`}
+                        onClick={() => setDisplayMode('paragraph')}
                         style={{ borderColor: 'gray', color: '#1883B0' }}>
                         Paragraph
                         </button>
                         <button
-                        type='button'
-                        className='btn btn-outline'
+                        type='button' 
+                        className={`btn ${displayMode === 'bullet' ? 'btn-light' : 'btn-outline'}`}
+                        onClick={() => setDisplayMode('bullet')}
                         style={{ borderColor: 'gray', color: '#1883B0' }}>
                         Bullet
                         </button>
                     </div>
                     <label className='mb-1 mx-5'>Summary</label>
                     <textarea readOnly={true} className='input w-75 mx-5 rounded' 
-                       placeholder='Summarized Text' value={summarizedtext}
+                       placeholder='Summarized Text' 
+                       value={displayMode === 'bullet' ? bulletPoints(summarizedtext) : summarizedtext}
+
                     />
                 </div>
             </div>
@@ -125,3 +142,8 @@ const Main = () => {
   );
 };
 export default Main;
+
+
+
+
+

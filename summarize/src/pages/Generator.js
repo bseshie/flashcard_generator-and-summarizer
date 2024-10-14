@@ -150,7 +150,7 @@ const Generator = () => {
                     )}
         </div>
 
-        {/* use react flip card component to simulate actual card flipping  */}
+        { /* card flip  */}
         
         <div className='mt-5 ' ref={flashcardRef}>
           {flashcards.length > 0 && (
