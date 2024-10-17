@@ -4,7 +4,7 @@ import ActionButton from '../components/ActionButton';
 import Navbar from '../components/NavBar';
 import LinkArea from '../components/Linkarea';
 import axios from 'axios';
-// import ReactMarkdown from "react-markdown";
+import ReactMarkdown from "react-markdown";
 
 
 const Main = () => {
@@ -13,19 +13,21 @@ const Main = () => {
   const [summarizedtext , setSummarizedtext] = useState("");
   const [loading ,setLoading] = useState(false);
   const [displayMode, setDisplayMode] = useState('paragraph'); 
-//   const [link, setLink] = useState('');
+  
 
   const handleInputChange = (e) =>{
     setInput(e.target.value);
   };
 
+
+  
   const handleSubmit = async () =>{
     if(!input){ 
-        alert('Please input text or link of article to be summarize');
+        alert('Please input text to be summarized');
         return
     }
     setLoading(true);
-    
+
 
     try{ 
     const response = await axios.post("https://ai-api.amalitech.org/api/v1/public/chat",
@@ -49,21 +51,16 @@ const Main = () => {
     
     }catch (error) {
         console.error('error generating summary:' ,error);
-        if(error.response){
-            console.error('response data:' ,error.response.data);
-            console.error('response status',error.response.status);
-        }else if(error.request){
-            console.error('request data:' ,error.request);
-        }else{
-            console.error('error message:', error.message);
-        }
     }finally{
         setLoading(false);
     }   
   };
 
+  
+    
+
   const bulletPoints = (text) =>{
-    const bullet = text.split('. ').filter(sentence => sentence).map(sentence => `-${sentence}`);
+    const bullet = text.split('. ').filter(sentence => sentence).map(sentence => `- ${sentence}`);
     return bullet.join('\n');
   };
 
@@ -76,15 +73,15 @@ const Main = () => {
         <header>
             <Navbar />
             <div className='container-fluid text-center mt-5'>
-                <h1 style={{color:'#1883B0'}}>Text Summarizer</h1>
+                <h1 style={{color:'#1883B0'}}>SummarEase</h1>
                 <h5 style={{color: '#726C6C'}}>Transform lengthy, complex information into concise, easy-to-understand summaries with just one click. 
                     Get clear insights from any text, instantly!</h5>
             </div>
         </header>
 
         <div className='container-fluid input-group link d-flex justify-content-center mt-5 mb-5'>
-            <LinkArea />
-            <ActionButton text='Submit' onClick={handleSubmit} className='linkBtn px-4 py-1 rounded' />
+            <LinkArea  />
+            <ActionButton text='Submit'  className='linkBtn px-4 py-1 rounded' />
         </div>
 
         <div className='container text-area rounded mb-5'>
@@ -108,7 +105,7 @@ const Main = () => {
                     <ActionButton text='Summarize' onClick={handleSubmit}
                     className='sumBtn mx-5 my-4 w-75 rounded' />
                     {loading === true &&(
-                        <p>Loading</p>
+                        <p className='loader m-auto d-flex flex-column '></p>
                     )}
 
                 </div>
@@ -116,32 +113,53 @@ const Main = () => {
                     <div className='paraBtn btn-group my-4 w-75 mx-5 ' role='group'>
                         <button
                         type='button' 
-                        className={`btn ${displayMode === 'paragraph' ? 'btn-light' : 'btn-outline'}`}
+                        className={`btn ${displayMode === 'paragraph'}`}
                         onClick={() => setDisplayMode('paragraph')}
                         style={{ borderColor: 'gray', color: '#1883B0' }}>
                         Paragraph
                         </button>
                         <button
                         type='button' 
-                        className={`btn ${displayMode === 'bullet' ? 'btn-light' : 'btn-outline'}`}
+                        className={`btn ${displayMode === 'bullet'}`}
                         onClick={() => setDisplayMode('bullet')}
                         style={{ borderColor: 'gray', color: '#1883B0' }}>
                         Bullet
                         </button>
                     </div>
                     <label className='mb-1 mx-5'>Summary</label>
-                    <textarea readOnly={true} className='input w-75 mx-5 rounded' 
+                    {displayMode === 'bullet' ? (
+                        <div
+                        className='input w-75 mx-5 rounded p-3'
+                        style={{ overflowY: 'auto', border: '1px solid #ccc' }} 
+                      >
+                        <ReactMarkdown>{bulletPoints(summarizedtext)}</ReactMarkdown>
+                      </div>
+                    ): (
+                     <textarea readOnly={true} className='input w-75 mx-5 rounded' 
                        placeholder='Summarized Text' 
-                       value={displayMode === 'bullet' ? bulletPoints(summarizedtext) : summarizedtext}
-
+                       value={summarizedtext}
                     />
+                    )}
+                    
                 </div>
             </div>
         </div>
     </div>
   );
 };
+
 export default Main;
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -23,8 +23,16 @@ code {
   background-color: #1883B0;
   color: white;
   border-style: none;
-
 }
+
+
+.btn:hover{
+  background-color: #1883B0 !important;
+  color: white !important;
+  opacity: 0.8;
+}
+
+
 
 .text-area{
   background-color: white;
@@ -95,4 +103,38 @@ label{
   background-color: white;
   border-style: none;
 }
+
+.loader {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 4px solid #FFF;
+  border-right: 4px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+.loader::after {
+  content: '';  
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border-left: 4px solid #1883B0;
+  border-bottom: 4px solid transparent;
+  animation: rotation 0.5s linear infinite reverse;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
+
+
 

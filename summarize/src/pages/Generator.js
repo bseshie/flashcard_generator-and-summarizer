@@ -111,7 +111,7 @@ const Generator = () => {
       <header>
         <Navbar />
         <div className='container-fluid text-center mt-5'>
-          <h1 style={{ color: '#1883B0' }}>AI Generated Flashcards</h1>
+          <h1 style={{ color: '#1883B0' }}>FlipSmart</h1>
           <h5 style={{ color: '#726C6C' }}>
             Generate flashcards instantly and supercharge your study sessions
           </h5>
@@ -146,7 +146,7 @@ const Generator = () => {
             onClick={generateFlashcards}
             />
             {loading === true &&(
-                        <p>Loading</p>
+                        <span className="loader"></span>
                     )}
         </div>
 
